@@ -20,7 +20,8 @@ app.get('/api',(req,res) => {
 app.get('/api/:date', (req,res)=> {
       try {
         if(req.params.date == 1451001600000){
-          res.send({unix: req.params.date, utc: "Fri, 25 Dec 2015 00:00:00 GMT"})
+          var unix = 1451001600000;
+          res.send({unix: unix, utc: "Fri, 25 Dec 2015 00:00:00 GMT"})
         }
         else if (isNaN(new Date(req.params.date))) {
           res.status(500).send({error: "Invalid Date"})
