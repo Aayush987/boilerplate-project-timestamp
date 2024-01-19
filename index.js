@@ -1,10 +1,15 @@
 var express = require('express');
 var app = express();
 
+var cors = require('cors');
+app.use(cors({optionsSuccessStatus: 200}));
+
+app.use(express.static('public'));
+
 app.use(express.json());
-app.get('/',(req,res) => {
-  res.send("Hello World");
-})
+app.get("/", function (req, res) {
+  res.sendFile(__dirname + '/views/index.html');
+});
 
 app.get('/api',(req,res) => {
   var unix = new Date().getTime();
@@ -33,6 +38,6 @@ app.get('/api/:date', (req,res)=> {
 })
 
 
-app.listen(3000,() => {
-  console.log("Server is running on Port 3000");
-})
+var listener = app.listen(process.env.PORT, function () {
+  console.log('Your app is listening on port ' + listener.address().port);
+});
