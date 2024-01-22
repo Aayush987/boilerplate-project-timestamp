@@ -1,5 +1,7 @@
 var express = require('express');
 var app = express();
+var cron = require('node-cron');
+var axios = require('axios');
 
 var cors = require('cors');
 app.use(cors({optionsSuccessStatus: 200}));
@@ -10,6 +12,19 @@ app.use(express.json());
 app.get("/", function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
+
+cron.schedule('*/10 * * * *', () => {
+  axios.get('https://timestamp-api-z28s.onrender.com/')
+     .then(resonse => {
+       console.log('Server Pinged successfully');
+     })
+     .catch(error => {
+       console.log(error);
+     });
+})
+
+
+
 
 app.get('/api',(req,res) => {
   var unix = new Date().getTime();
